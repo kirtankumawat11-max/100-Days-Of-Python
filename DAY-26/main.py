@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+from pathlib import Path
 
 # Page configuration
 st.set_page_config(
@@ -36,7 +37,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Load NATO phonetic alphabet
-data = pd.read_csv("nato_phonetic_alphabet.csv")
+csv_file = Path(__file__).parent / "nato_phonetic_alphabet.csv"
+data = pd.read_csv(csv_file)
 
 # Create phonetic dictionary
 phonetic_dict = {
@@ -52,7 +54,10 @@ word = st.text_input("Enter a word:")
 
 if word:
     try:
-        output_list = [phonetic_dict[letter] for letter in word.upper()]
+        output_list = [
+            phonetic_dict[letter]
+            for letter in word.upper()
+        ]
 
         st.subheader("Phonetic Code")
         st.write(" → ".join(output_list))
